@@ -1,0 +1,57 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  steps: string[];
+}
+
+const { id, title, steps } = Astro.props;
+const n = steps.length;
+const span = 608 / Math.max(n - 1, 1);
+const nodes = steps.map((_, i) => 16 + i * span);
+const gid = `sy-gold-${id.replace(/[^a-zA-Z0-9_-]/g, '')}`;
+---
+
+<figure class="schematic">
+  <p class="mod-id">{id}</p>
+  <figcaption class="schematic-title">{title}</figcaption>
+  <svg class="schematic-svg" viewBox="0 0 640 92" role="img" aria-hidden="true">
+    <defs>
+      <linearGradient id={gid} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#c9a44a" stop-opacity="0.15" />
+        <stop offset="0.5" stop-color="#e4c36a" stop-opacity="0.85" />
+        <stop offset="1" stop-color="#c9a44a" stop-opacity="0.15" />
+      </linearGradient>
+    </defs>
+    <rect x="0.5" y="0.5" width="639" height="91" fill="none" stroke="#c9a44a" stroke-opacity="0.18" />
+    <line x1="16" y1="46" x2="624" y2="46" stroke={`url(#${gid})`} stroke-width="1.2" />
+    {
+      nodes.map((x, i) => (
+        <g>
+          <circle cx={x} cy="46" r="7" fill="#070b12" stroke="#c9a44a" stroke-width="1.4" />
+          <circle cx={x} cy="46" r="2.4" fill="#4ee0c8" />
+          {i < n - 1 && (
+            <polygon
+              points={`${(x + nodes[i + 1]) / 2 - 6},42 ${(x + nodes[i + 1]) / 2 + 5},46 ${(x + nodes[i + 1]) / 2 - 6},50`}
+              fill="#4ee0c8"
+              opacity="0.85"
+            />
+          )}
+        </g>
+      ))
+    }
+    <path d="M24 12h42M24 18h22" stroke="#4ee0c8" stroke-opacity="0.35" stroke-width="1" />
+    <path d="M574 74h42M594 80h22" stroke="#c9a44a" stroke-opacity="0.4" stroke-width="1" />
+  </svg>
+  <ol class="flow">
+    {
+      steps.map((step, i) => (
+        <li class="flow-item">
+          <span class="n">{String(i + 1).padStart(2, '0')}</span>
+          <span class="name">{step}</span>
+          {i < n - 1 ? <span class="arrow" aria-hidden="true">→</span> : <span class="arrow" aria-hidden="true">■</span>}
+        </li>
+      ))
+    }
+  </ol>
+</figure>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import FlowSchematic from './FlowSchematic.astro';
 import { t, type Locale } from '../i18n/ui';
 import { localePath } from '../i18n/paths';
 
@@ -22,13 +23,19 @@ const descMap = {
   delivery: copy.meta.deliveryDesc,
   contact: copy.meta.contactDesc,
 };
+const idMap = {
+  capabilities: copy.capabilities.id,
+  scenarios: copy.scenarios.id,
+  delivery: copy.delivery.id,
+  contact: 'CNT-01',
+};
 ---
 
 <Layout locale={locale} title={titleMap[kind]} description={descMap[kind]}>
   <main>
     <div class="page-head">
       <div class="wrap">
-        <p class="kicker">{copy.brand}</p>
+        <p class="kicker">{idMap[kind]}</p>
         <h1>{titleMap[kind]}</h1>
         <hr class="rule" />
         {kind === 'capabilities' && <p class="lede">{copy.capabilities.intro}</p>}
@@ -42,9 +49,66 @@ const descMap = {
       <div class="wrap">
         {kind === 'capabilities' && (
           <div class="stack">
-            {copy.capabilities.items.map((item, i) => (
-              <article class:list={['card', { featured: i === 2 }]}>
-                {i === 2 && <span class="badge">{copy.cards.featured}</span>}
+            {copy.capabilities.items.map((item) => (
+              <article class:list={['card', { featured: item.featured }]}>
+                {item.featured && <span class="badge">{copy.cards.featured}</span>}
+                <p class="mod-id">{item.id}</p>
+                <h2>{item.title}</h2>
+                <p>{item.body}</p>
+                <table class="spec-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>SPEC</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {item.rows.map((row) => (
+                      <tr>
+                        <td>{row.label}</td>
+                        <td>{row.detail}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {item.modules && (
+                  <table class="spec-table">
+                    <thead>
+                      <tr>
+                        <th>MODULE</th>
+                        <th>SCOPE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {item.modules.map((mod) => (
+                        <tr>
+                          <td>{mod.name}</td>
+                          <td>{mod.scope}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+                {item.featured && (
+                  <div style="margin-top:1.1rem">
+                    <FlowSchematic
+                      id={copy.schematic.id}
+                      title={item.flow ?? copy.schematic.title}
+                      steps={copy.schematic.steps}
+                    />
+                  </div>
+                )}
+                {item.note && <p class="note" style="margin-top:0.9rem">{item.note}</p>}
+              </article>
+            ))}
+          </div>
+        )}
+
+        {kind === 'scenarios' && (
+          <div class="stack">
+            {copy.scenarios.items.map((item, i) => (
+              <article class="card">
+                <p class="mod-id">{String(i + 1).padStart(2, '0')}</p>
                 <h2>{item.title}</h2>
                 <p>{item.body}</p>
                 <ul class="points">
@@ -55,21 +119,11 @@ const descMap = {
           </div>
         )}
 
-        {kind === 'scenarios' && (
-          <div class="stack">
-            {copy.scenarios.items.map((item) => (
-              <article class="card">
-                <h2>{item.title}</h2>
-                <p>{item.body}</p>
-              </article>
-            ))}
-          </div>
-        )}
-
         {kind === 'delivery' && (
           <div class="stack">
-            {copy.delivery.items.map((item) => (
+            {copy.delivery.items.map((item, i) => (
               <article class="card">
+                <p class="mod-id">{String(i + 1).padStart(2, '0')}</p>
                 <h2>{item.title}</h2>
                 <p>{item.body}</p>
               </article>

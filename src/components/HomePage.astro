@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import FlowSchematic from './FlowSchematic.astro';
 import { t, type Locale } from '../i18n/ui';
 import { localePath } from '../i18n/paths';
 
@@ -14,23 +15,51 @@ const copy = t(locale);
 <Layout locale={locale} title={copy.meta.homeTitle} description={copy.meta.homeDesc}>
   <main>
     <section class="hero">
-      <div class="wrap">
-        <p class="kicker">{copy.hero.kicker}</p>
-        <h1>{copy.hero.title}</h1>
-        <hr class="rule" />
-        <p class="sub">{copy.hero.sub}</p>
-        <p class="body">{copy.hero.body}</p>
-        <a class="btn" href={localePath(locale, 'contact')}>{copy.cta}</a>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker">{copy.hero.kicker}</p>
+          <h1 class="hero-mark">{copy.hero.title}</h1>
+          <hr class="rule" />
+          <div class="chips">
+            {copy.hero.chips.map((chip) => <span class="chip">{chip}</span>)}
+          </div>
+          <p class="sub">{copy.hero.sub}</p>
+          <p class="body">{copy.hero.body}</p>
+          <a class="btn" href={localePath(locale, 'contact')}>{copy.cta}</a>
+        </div>
+        <FlowSchematic id={copy.schematic.id} title={copy.schematic.title} steps={copy.schematic.steps} />
       </div>
     </section>
 
     <section class="section">
       <div class="wrap">
-        <h2>{copy.cards.title}</h2>
-        <div class="grid-3">
+        <div class="section-head">
+          <p class="kicker">{copy.about.id}</p>
+          <h2>{copy.about.title}</h2>
+        </div>
+        <div class="grid-about">
+          {copy.about.items.map((item) => (
+            <article class="card">
+              <p class="mod-id">{item.kicker}</p>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="kicker">{copy.cards.id}</p>
+          <h2>{copy.cards.title}</h2>
+        </div>
+        <div class="grid-cards">
           {copy.cards.items.map((card) => (
             <a class:list={['card', { featured: card.featured }]} href={localePath(locale, 'capabilities')}>
               {card.featured && <span class="badge">{copy.cards.featured}</span>}
+              <p class="mod-id">{card.id}</p>
               <h3>{card.title}</h3>
               <p>{card.body}</p>
             </a>
@@ -41,10 +70,13 @@ const copy = t(locale);
 
     <section class="band">
       <div class="wrap">
-        <h2>{copy.audience.title}</h2>
+        <div class="section-head">
+          <p class="kicker">{copy.audience.id}</p>
+          <h2>{copy.audience.title}</h2>
+        </div>
         <div class="grid-3">
           {copy.audience.items.map((item) => (
-            <article>
+            <article class="card">
               <h3>{item.title}</h3>
               <p>{item.body}</p>
             </article>
@@ -54,14 +86,3 @@ const copy = t(locale);
     </section>
   </main>
 </Layout>
-
-<style>
-  .band h3 {
-    margin: 0 0 0.35rem;
-    font-size: 1.05rem;
-  }
-  .band p {
-    margin: 0;
-    color: var(--muted);
-  }
-</style>

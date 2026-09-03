@@ -14,7 +14,9 @@ const navKeys: NavKey[] = ['home', 'capabilities', 'scenarios', 'delivery', 'con
 
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="wordmark" href={localePath(locale, 'home')}>{copy.wordmark}</a>
+    <a class="wordmark" href={localePath(locale, 'home')}>
+      {copy.wordmark}<span>{copy.brandSub}</span>
+    </a>
     <nav class="nav" aria-label={copy.nav.home}>
       {navKeys.map((key) => (
         <a href={localePath(locale, key)} aria-current={active === key ? 'page' : undefined}>
