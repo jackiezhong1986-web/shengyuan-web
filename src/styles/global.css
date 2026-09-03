@@ -1,0 +1,376 @@
+:root {
+  --bg: #f6f2ea;
+  --bg-deep: #efe8d9;
+  --paper: #fffcf7;
+  --ink: #1c1914;
+  --muted: #5e574c;
+  --line: #d9d0c0;
+  --gold: #8a6a2b;
+  --gold-deep: #6b5221;
+  --gold-soft: #c4a574;
+  --shadow: 0 12px 40px rgba(28, 25, 20, 0.06);
+  --radius: 14px;
+  --max: 1080px;
+  --font: "Source Sans 3", "Noto Sans SC", "Noto Sans", "Segoe UI", sans-serif;
+  --serif: "Noto Serif SC", "Source Serif 4", "Songti SC", serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+body {
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--gold-deep);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--gold);
+}
+
+.wrap {
+  width: min(var(--max), calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, white);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4rem;
+}
+
+.wordmark {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.wordmark span {
+  color: var(--gold);
+  letter-spacing: 0;
+  margin-left: 0.15em;
+  font-weight: 500;
+  font-size: 0.72rem;
+}
+
+.nav {
+  display: none;
+  gap: 1.15rem;
+}
+
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav a[aria-current="page"],
+.nav a:hover {
+  color: var(--ink);
+}
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lang {
+  display: flex;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.lang a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.15rem 0.35rem;
+  border-radius: 999px;
+}
+
+.lang a[aria-current="true"] {
+  color: var(--ink);
+  background: var(--bg-deep);
+}
+
+.menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 8px;
+  color: var(--ink);
+}
+
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0 1rem 1rem;
+}
+
+.mobile-nav.open {
+  display: flex;
+}
+
+.mobile-nav a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+main {
+  padding-bottom: 4rem;
+}
+
+.hero {
+  padding: 3.2rem 0 2.4rem;
+}
+
+.kicker {
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  margin: 0 0 0.8rem;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 4.2rem);
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  margin: 0 0 0.85rem;
+}
+
+.hero .sub {
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  margin: 0 0 0.85rem;
+  max-width: 28ch;
+}
+
+.hero .body {
+  color: var(--muted);
+  max-width: 42ch;
+  margin: 0 0 1.6rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gold-deep);
+  color: #fffaf1;
+  text-decoration: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+
+.btn:hover {
+  background: var(--gold);
+  color: #fffaf1;
+}
+
+.section {
+  padding: 1.5rem 0 0.5rem;
+}
+
+.section h2 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 1.1rem;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 52ch;
+  margin: -0.4rem 0 1.4rem;
+}
+
+.grid-3 {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.2rem 1.3rem;
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+a.card:hover {
+  border-color: var(--gold-soft);
+}
+
+.card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.08rem;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+
+.card.featured {
+  border-color: var(--gold);
+  background:
+    linear-gradient(180deg, #fff8ea 0%, var(--paper) 42%);
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--gold-deep);
+  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  padding: 0.08rem 0.5rem;
+  margin-bottom: 0.55rem;
+}
+
+.band {
+  margin-top: 2.2rem;
+  background: var(--bg-deep);
+  border-block: 1px solid var(--line);
+  padding: 1.8rem 0;
+}
+
+.page-head {
+  padding: 2.4rem 0 0.4rem;
+}
+
+.page-head h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin: 0 0 0.6rem;
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.points {
+  margin: 0.7rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+}
+
+.contact-box {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.4rem;
+  max-width: 36rem;
+}
+
+.contact-box dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.8rem;
+}
+
+.contact-box dd {
+  margin: 0.15rem 0 0;
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 1.4rem 0 2rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.rule {
+  width: 3.2rem;
+  height: 2px;
+  background: var(--gold);
+  margin: 0 0 1.1rem;
+  border: 0;
+}
+
+@media (min-width: 760px) {
+  .nav {
+    display: flex;
+  }
+
+  .menu-btn {
+    display: none;
+  }
+
+  .mobile-nav,
+  .mobile-nav.open {
+    display: none;
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero {
+    padding-top: 4.4rem;
+  }
+}

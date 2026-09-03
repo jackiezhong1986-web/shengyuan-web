@@ -1,0 +1,70 @@
+---
+import { t, locales, type Locale, type NavKey } from '../i18n/ui';
+import { localePath, currentNav } from '../i18n/paths';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = t(locale);
+const active = currentNav(Astro.url);
+const navKeys: NavKey[] = ['home', 'capabilities', 'scenarios', 'delivery', 'contact'];
+---
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href={localePath(locale, 'home')}>{copy.wordmark}</a>
+    <nav class="nav" aria-label={copy.nav.home}>
+      {navKeys.map((key) => (
+        <a href={localePath(locale, key)} aria-current={active === key ? 'page' : undefined}>
+          {copy.nav[key]}
+        </a>
+      ))}
+    </nav>
+    <div class="header-tools">
+      <nav class="lang" aria-label={copy.langLabel}>
+        {locales.map((code) => (
+          <a href={localePath(code, active)} aria-current={code === locale ? 'true' : undefined}>
+            {copy.langNames[code]}
+          </a>
+        ))}
+      </nav>
+      <button class="menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-nav">
+        <span class="sr-only">menu</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+          <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav wrap" id="mobile-nav">
+    {navKeys.map((key) => (
+      <a href={localePath(locale, key)} aria-current={active === key ? 'page' : undefined}>
+        {copy.nav[key]}
+      </a>
+    ))}
+  </nav>
+</header>
+
+<script>
+  const btn = document.querySelector('[data-menu-toggle]');
+  const panel = document.getElementById('mobile-nav');
+  btn?.addEventListener('click', () => {
+    const open = panel?.classList.toggle('open');
+    btn?.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+</style>

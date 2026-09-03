@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { t, type Locale } from '../i18n/ui';
+import { localePath } from '../i18n/paths';
+
+interface Props {
+  locale: Locale;
+  kind: 'capabilities' | 'scenarios' | 'delivery' | 'contact';
+}
+
+const { locale, kind } = Astro.props;
+const copy = t(locale);
+const titleMap = {
+  capabilities: copy.meta.capabilitiesTitle,
+  scenarios: copy.meta.scenariosTitle,
+  delivery: copy.meta.deliveryTitle,
+  contact: copy.meta.contactTitle,
+};
+const descMap = {
+  capabilities: copy.meta.capabilitiesDesc,
+  scenarios: copy.meta.scenariosDesc,
+  delivery: copy.meta.deliveryDesc,
+  contact: copy.meta.contactDesc,
+};
+---
+
+<Layout locale={locale} title={titleMap[kind]} description={descMap[kind]}>
+  <main>
+    <div class="page-head">
+      <div class="wrap">
+        <p class="kicker">{copy.brand}</p>
+        <h1>{titleMap[kind]}</h1>
+        <hr class="rule" />
+        {kind === 'capabilities' && <p class="lede">{copy.capabilities.intro}</p>}
+        {kind === 'scenarios' && <p class="lede">{copy.scenarios.intro}</p>}
+        {kind === 'delivery' && <p class="lede">{copy.delivery.intro}</p>}
+        {kind === 'contact' && <p class="lede">{copy.contact.intro}</p>}
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="wrap">
+        {kind === 'capabilities' && (
+          <div class="stack">
+            {copy.capabilities.items.map((item, i) => (
+              <article class:list={['card', { featured: i === 2 }]}>
+                {i === 2 && <span class="badge">{copy.cards.featured}</span>}
+                <h2>{item.title}</h2>
+                <p>{item.body}</p>
+                <ul class="points">
+                  {item.points.map((p) => <li>{p}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+        )}
+
+        {kind === 'scenarios' && (
+          <div class="stack">
+            {copy.scenarios.items.map((item) => (
+              <article class="card">
+                <h2>{item.title}</h2>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
+        )}
+
+        {kind === 'delivery' && (
+          <div class="stack">
+            {copy.delivery.items.map((item) => (
+              <article class="card">
+                <h2>{item.title}</h2>
+                <p>{item.body}</p>
+              </article>
+            ))}
+            <p class="lede">{copy.delivery.note}</p>
+            <p><a class="btn" href={localePath(locale, 'contact')}>{copy.cta}</a></p>
+          </div>
+        )}
+
+        {kind === 'contact' && (
+          <div class="contact-box">
+            <dl>
+              <dt>{copy.contact.company}</dt>
+              <dd>{copy.brand}</dd>
+              <dt>{copy.contact.personLabel}</dt>
+              <dd>{copy.person}</dd>
+              <dt>{copy.contact.mailLabel}</dt>
+              <dd>
+                <a href={`mailto:${copy.email}`}>{copy.email}</a>
+              </dd>
+            </dl>
+            <p style="margin-top:1.2rem">
+              <a class="btn" href={`mailto:${copy.email}`}>{copy.cta}</a>
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+  </main>
+</Layout>
